@@ -7,7 +7,6 @@ app = Flask(__name__)
 server = 'sari.database.windows.net'
 database = 'yazlab2'
 username = 'sqladmin'
-
 password = 'Sari1234'
 driver = '{ODBC Driver 18 for SQL Server}'  # Sürücü adınızı doğru sürücü ile değiştirin
 
@@ -32,7 +31,7 @@ def home():
 def check_user(username, password):
     with connect_db() as conn:
         cursor = conn.cursor()
-        query = "SELECT * FROM users WHERE username = ? AND password = ?"
+        query = "SELECT * FROM kullanicilar WHERE e_posta = ? AND sifre = ?"
         result = cursor.execute(query, (username, password)).fetchone()
 
         return result is not None
