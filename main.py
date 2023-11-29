@@ -7,6 +7,7 @@ app = Flask(__name__)
 server = 'sari.database.windows.net'
 database = 'yazlab2'
 username = 'sqladmin'
+
 password = 'Sari1234'
 driver = '{ODBC Driver 18 for SQL Server}'  # Sürücü adınızı doğru sürücü ile değiştirin
 
