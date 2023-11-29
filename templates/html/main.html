@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Ekranı</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <h2>FitLife - Online Fitness Koçluğu Platformu</h2>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <form action="/" method="post">
+            <label for="username">Kullanıcı Adı:</label>
+            <input type="text" id="username" name="username" class="login-input" required>
+
+            <label for="password">Şifre:</label>
+            <input type="password" id="password" name="password" class="login-input" required>
+
+            <button type="submit" class="login-button">Giriş Yap</button>
+        </form>
+    </div>
+</body>
+</html>
