@@ -1,0 +1,127 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    position: fixed;
+    width: 15%;
+    background-color: #333;
+    padding: 20px;
+    color: #fff;
+    height: 100vh;
+}
+
+.sidebar h1 {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 20px;
+    text-align: center; /* Başlığı merkezle */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 10px;
+    margin-top: 20px; /* Yazıları biraz daha aşağıya indir */
+}
+
+.sidebar a {
+    color: white;
+    font-size: 20px; /* Yazıları biraz daha büyüt */
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s; /* Hover efekti için geçiş süresi eklendi */
+}
+
+.sidebar a:hover {
+    background-color: #555; /* Hover olduğunda arka plan rengi değiştir */
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+}
+
+.content {
+    width: 80%;
+    padding: 20px;
+    margin-left: 20%;
+}
+form {
+    margin-top: 20px;
+    max-width: 800px; /* Formun maksimum genişliğini belirle */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="email"],
+input[type="tel"],
+input[type="file"],
+input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc; /* Kenarlık ekle */
+    border-radius: 8px; /* Köşeleri yumuşat */
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Hover efekti */
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Optional: Add hover effects for links and buttons */
+.sidebar a:hover {
+    background-color: #555;
+}
+
+/* Danışan Seçimi Stili */
+label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* İsteğe bağlı: Link ve buton hover efektleri */
+.sidebar a:hover {
+    background-color: #555;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}

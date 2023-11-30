@@ -22,7 +22,7 @@ def home():
         password = request.form['password']
 
         if check_user(username, password):
-            return redirect(url_for('welcome', username=username))
+            return render_template('html/danisan.html', username=username)
         else:
             return render_template('html/main.html', error='Kullanıcı adı veya şifre hatalı.')
 
@@ -35,10 +35,6 @@ def check_user(username, password):
         result = cursor.execute(query, (username, password)).fetchone()
 
         return result is not None
-
-@app.route('/welcome/<username>')
-def welcome(username):
-    return f'Merhaba, {username}! Giriş başarılı.'
 
 if __name__ == '__main__':
     app.run(debug=True)
