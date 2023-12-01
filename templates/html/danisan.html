@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/danisan.css') }}">
+     <script src="{{ url_for('static', filename='script.js') }}"></script>
+
     <title>Sidebar Example</title>
 </head>
 <body>
@@ -58,8 +60,50 @@
                 </form>
             </section>
 
-        </div>
-    </div>
+            <div>
+                <!-- Egzersiz ve Beslenme Bilgileri -->
+                <section id="about">
+                    <h2 style="font-size: 55px;">Egzersiz ve Beslenme</h2>
 
+                    <!-- Beslenme Programı Bilgileri -->
+                    <div class="beslenme-bilgileri">
+                        <h3>Beslenme Programı</h3>
+                        <p><strong>Hedef:</strong> Kilo Alma</p>
+                        <p><strong>Günlük Öğünler:</strong> 3 öğün</p>
+                        <p><strong>Kalori Hedefi:</strong> 2500 kcal</p>
+                    </div>
+
+                    <!-- Egzersiz Programı Bilgileri -->
+                    <div class="egzersiz-bilgileri">
+                        <div class="egzersiz">
+                            <h3>Egzersiz Programları</h3>
+                            <h4>Egzersiz Adı: Ağırlık Antrenmanı</h4>
+                            <p><strong>Hedef:</strong> Kilo Alma</p>
+                            <p><strong>Başlangıç Tarihi:</strong> 01.01.2023</p>
+                            <p><strong>Program Süresi:</strong> 4 Hafta</p>
+                        </div>
+                        <!-- Diğer egzersiz programları buraya eklenebilir -->
+                    </div>
+
+                </section>
+            </div>
+            <div>
+                <section id="services">
+                    <h2 style="font-size: 55px;">Antrenörle Mesajlaşma</h2>
+                    <div class="mesajlar" id="mesajlar">
+                        <!-- Mesajlar buraya eklenecek -->
+                    </div>
+                    <div class="mesaj-gonder-formu">
+                        <label for="mesaj">Mesajınız:</label>
+                        <textarea id="mesaj" rows="4" cols="50"></textarea>
+                        <button onclick="gonderMesaj()">Gönder</button>
+                    </div>
+                </section>
+            </div>
+
+            </div>
+            </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>

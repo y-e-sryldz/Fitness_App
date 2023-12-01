@@ -50,7 +50,6 @@ def check_user(username, password):
 
         return result is not None
 
-
 def update_user_password(email, new_password):
     # Azure Database bağlantısını yap
     conn_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
