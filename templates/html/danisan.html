@@ -25,9 +25,12 @@
             <!-- Kişisel Bilgiler Formu -->
             <section id="home">
                 <h2 style="font-size: 55px;">Kişisel Bilgiler</h2>
-                <form>
+                <form method="post" action="/kisisel_bilgi_ekle" enctype="multipart/form-data">
                     <label for="ad">Ad Soyad:</label>
                     <input type="text" id="ad" name="ad" required>
+
+                    <label for="sifre">Şifre:</label>
+                    <input type="text" id="sifre" name="sifre" required>
 
                     <label for="dogum-tarihi">Doğum Tarihi:</label>
                     <input type="date" id="dogum-tarihi" name="dogum-tarihi" required>
