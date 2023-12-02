@@ -32,8 +32,8 @@ def home():
             session['user_id'] = user_id
 
             if check_user(username, password):
-
-                return render_template('html/danisan.html', username=username, user_id=user_id)
+                # index fonksiyonunu çağır
+                return index()
             else:
                 flash('Kullanıcı adı veya şifre hatalı.', 'error')
 
@@ -146,6 +146,47 @@ def kisisel_bilgi_ekle():
             print(f'Hata oluştu: {str(e)}', 'danger')
     return render_template('html/danisan.html')
 
+
+
+@app.route('/')
+def index():
+    try:
+        # Cursor oluştur
+        cursor = connect_db().cursor()
+
+        # Flask session'da kullanıcının user_id değerini kontrol et
+        user_id = session.get('user_id')
+
+        # SQL sorgusu
+        sql_query = "SELECT * FROM BeslenmeProgramlari WHERE danisan_id = ?"
+
+        # Parametre ile sorguyu çalıştır
+        cursor.execute(sql_query, (user_id,))
+        rows = cursor.fetchall()
+        print(rows)
+        print("AAAAAAAAAAAAAA")
+
+        # SQL sorgusu
+        sql_query1 = "SELECT * FROM EgzersizProgramlari WHERE danisan_id = ?"
+
+        # Parametre ile sorguyu çalıştır
+        cursor.execute(sql_query1, (user_id,))
+        rows1 = cursor.fetchall()
+
+        # SQL sorgusu
+        sql_query2 = "SELECT * FROM ilerlemeKayitlari WHERE danisan_id = ?"
+
+        # Parametre ile sorguyu çalıştır
+        cursor.execute(sql_query2, (user_id,))
+        rows2 = cursor.fetchall()
+
+        # Bağlantıyı kapat
+        cursor.close()
+
+        return render_template('html/danisan.html', BeslenmeProgramlari=rows, EgzersizProgramlari=rows1, ilerlemeKayitlari=rows2)  # BeslenmeProgramlari değişkeni kullanılabilir
+    except Exception as e:
+        print(f'Hata oluştu: {str(e)}')
+        return render_template('main.html', error_message=str(e))
 
 if __name__ == '__main__':
     app.run(debug=True)

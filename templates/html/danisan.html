@@ -71,25 +71,31 @@
                     <!-- Beslenme Programı Bilgileri -->
                     <div class="beslenme-bilgileri">
                         <h3>Beslenme Programı</h3>
-                        <p><strong>Hedef:</strong> Kilo Alma</p>
-                        <p><strong>Günlük Öğünler:</strong> 3 öğün</p>
-                        <p><strong>Kalori Hedefi:</strong> 2500 kcal</p>
+                        {% for beslenme_programi in BeslenmeProgramlari %}
+                            <p><strong>Hedef:</strong> {{ beslenme_programi[3] }}</p>
+                            <p><strong>Günlük Öğünler:</strong> {{ beslenme_programi[7] }} öğün</p>
+                            <p><strong>Sabah:</strong> {{ beslenme_programi[4] }}</p>
+                            <p><strong>Öğle:</strong> {{ beslenme_programi[5] }}</p>
+                            <p><strong>Akşam:</strong> {{ beslenme_programi[6] }}</p>
+                            <p><strong>Kalori Hedefi:</strong> {{ beslenme_programi[8] }} kcal</p>
+                        {% endfor %}
                     </div>
 
                     <!-- Egzersiz Programı Bilgileri -->
                     <div class="egzersiz-bilgileri">
-                        <div class="egzersiz">
-                            <h3>Egzersiz Programları</h3>
-                            <h4>Egzersiz Adı: Ağırlık Antrenmanı</h4>
-                            <p><strong>Hedef:</strong> Kilo Alma</p>
-                            <p><strong>Başlangıç Tarihi:</strong> 01.01.2023</p>
-                            <p><strong>Program Süresi:</strong> 4 Hafta</p>
-                        </div>
-                        <!-- Diğer egzersiz programları buraya eklenebilir -->
+                        <h3>Egzersiz Programı</h3>
+                        {% for egzersiz_programi in EgzersizProgramlari %}
+                            <div class="egzersiz">
+                                <p><strong>Egzersiz Adı:</strong> {{ egzersiz_programi[3] }}</p>
+                                <p><strong>Hedef:</strong> {{ egzersiz_programi[4] }}</p>
+                                <p><strong>Başlangıç Tarihi:</strong> {{ egzersiz_programi[5] }}</p>
+                                <p><strong>Program Süresi:</strong> {{ egzersiz_programi[6] }} Hafta</p>
+                            </div>
+                        {% endfor %}
                     </div>
-
                 </section>
             </div>
+
             <div>
                 <section id="services">
                     <h2 style="font-size: 55px;">Antrenörle Mesajlaşma</h2>
@@ -109,12 +115,13 @@
                     <h2 style="font-size: 55px;">Vücut Ölçüleri</h2>
 
                     <div class="beslenme-bilgileri">
-                        <h3>Beslenme Programı</h3>
-                        <p><strong>Kilo:</strong> 75 </p>
-                        <p><strong>Boy:</strong> 180 cm</p>
-                        <p><strong>Yağ Oranı:</strong> %13 </p>
-                        <p><strong>Kas Kütlesi:</strong> 25 KG </p>
-                        <p><strong>Vüvut İndeksi:</strong> %13 </p>
+                        {% for ilerleme_Kayitlari in ilerlemeKayitlari %}
+                            <p><strong>Kilo:</strong> {{ ilerleme_Kayitlari[2] }} Kg </p>
+                            <p><strong>Boy:</strong> {{ ilerleme_Kayitlari[3] }} cm</p>
+                            <p><strong>Yağ Oranı:</strong> %{{ ilerleme_Kayitlari[4] }} </p>
+                            <p><strong>Kas Kütlesi:</strong> {{ ilerleme_Kayitlari[5] }} KG </p>
+                            <p><strong>Vüvut İndeksi:</strong> %{{ ilerleme_Kayitlari[6] }} </p>
+                        {% endfor %}
                     </div>
 
                 </section>
