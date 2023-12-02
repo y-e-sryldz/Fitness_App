@@ -27,13 +27,20 @@ def home():
             username = request.form['username']
             password = request.form['password']
 
-            user_id = get_user_id_by_email(username)
+            user_id ,role = get_user_info(username)
             print(user_id)
             session['user_id'] = user_id
+            session['user_rol'] = role
 
             if check_user(username, password):
-                # index fonksiyonunu çağır
-                return index()
+                if role == 1:
+                    return redirect(url_for('yonetici'))
+                elif role == 2:
+                    return render_template('html/antrenor.html')
+                elif role == 3:
+                    return danisan()
+                else:
+                    flash('Geçersiz kullanıcı rolü.', 'error')
             else:
                 flash('Kullanıcı adı veya şifre hatalı.', 'error')
 
@@ -56,19 +63,17 @@ def check_user(username, password):
         result = cursor.execute(query, (username, password)).fetchone()
         return result is not None
 
-
-#kullanıcı adını tuutan id fonksiyonu
-def get_user_id_by_email(email):
+# Kullanıcının bilgilerini ve rolünü getiren fonksiyon
+def get_user_info(username):
     with connect_db() as conn:
         cursor = conn.cursor()
-        query = "SELECT id FROM kullanicilar WHERE e_posta = ?"
-        result = cursor.execute(query, (email,)).fetchone()
+        query = "SELECT id, rol FROM kullanicilar WHERE e_posta = ?"
+        result = cursor.execute(query, (username,)).fetchone()
 
         if result:
-            return result[0]  # id değerini döndür
+            return result[0], result[1]  # id ve rol değerlerini döndür
         else:
-            return None  # Eğer e-posta bulunamazsa None döndür
-
+            return None, None  # Eğer kullanıcı bulunamazsa None döndür
 
 def update_user_password(email, new_password):
     # Azure Database bağlantısını yap
@@ -103,7 +108,7 @@ def reset_password():
     return redirect(url_for('home'))
 
 @app.route('/kisisel_bilgi_ekle', methods=['POST'])
-def kisisel_bilgi_ekle():
+def danisan_bilgi_ekle():
     if request.method == 'POST':
 
         user_id = session.get('user_id')
@@ -144,12 +149,10 @@ def kisisel_bilgi_ekle():
         except Exception as e:
             # Hata durumunda kullanıcıya bilgi ver
             print(f'Hata oluştu: {str(e)}', 'danger')
-    return render_template('html/danisan.html')
-
-
+    return render_template('html/main.html')
 
 @app.route('/')
-def index():
+def danisan():
     try:
         # Cursor oluştur
         cursor = connect_db().cursor()
@@ -187,6 +190,42 @@ def index():
     except Exception as e:
         print(f'Hata oluştu: {str(e)}')
         return render_template('main.html', error_message=str(e))
+
+@app.route('/antrenor_bilgi_ekle', methods=['POST'])
+def antrenor_bilgi_ekle():
+    if request.method == 'POST':
+
+        user_id = session.get('user_id')
+        rol = session.get('user_rol')
+        print(user_id)
+
+        # Formdan gelen verileri al
+        ad = request.form['ad']
+        sifre = request.form['sifre']
+        email = request.form['email']
+        telefon = request.form['telefon']
+        uzmanlik = request.form['uzmanlik']
+        deneyim = request.form['deneyim']
+
+        # Veritabanına ekleme işlemleri
+        try:
+            with connect_db() as conn:
+                cursor = conn.cursor()
+
+                # Kullanıcı tablosuna ekle
+                cursor.execute("UPDATE kullanicilar SET adi=?, e_posta=?, sifre=?, rol=? WHERE id=?", (ad, email, sifre, rol, user_id))
+                conn.commit()
+                # Danışanlar tablosuna ekle
+                cursor.execute("UPDATE Antrenorler SET Uzmanlik_alanlari=?,  iletisim_bilgileri=?, deneyim=? WHERE id=?", (uzmanlik, telefon, deneyim, user_id))
+                conn.commit()
+
+                print('Bilgiler başarıyla kaydedildi.', 'success')
+
+        except Exception as e:
+            # Hata durumunda kullanıcıya bilgi ver
+            print(f'Hata oluştu: {str(e)}', 'danger')
+
+    return render_template('html/main.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
