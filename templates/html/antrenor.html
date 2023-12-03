@@ -14,9 +14,8 @@
         <div class="sidebar">
             <ul>
                 <li><a href="#home">Kişisel Bilgiler</a></li>
-                <li><a href="#about">Egzersiz ve Beslenme</a></li>
+                <li><a href="#about">Danışanlarım</a></li>
                 <li><a href="#services">Danışanlarla Mesajlaşma</a></li>
-                <li><a href="#contact">Vücut ölçüleri</a></li>
             </ul>
         </div>
 
@@ -65,39 +64,81 @@
             <div>
                 <!-- Egzersiz ve Beslenme Bilgileri -->
                 <section id="about">
-                    <h2 style="font-size: 55px;">Egzersiz ve Beslenme</h2>
+                    <h2 style="font-size: 55px;">Danışanlarım</h2>
 
-                    <!-- Beslenme Programı Bilgileri -->
-                    <div class="beslenme-bilgileri">
-                        <h3>Beslenme Programı</h3>
-                        {% for beslenme_programi in BeslenmeProgramlari %}
-                            <p><strong>Hedef:</strong> {{ beslenme_programi[3] }}</p>
-                            <p><strong>Günlük Öğünler:</strong> {{ beslenme_programi[7] }} öğün</p>
-                            <p><strong>Sabah:</strong> {{ beslenme_programi[4] }}</p>
-                            <p><strong>Öğle:</strong> {{ beslenme_programi[5] }}</p>
-                            <p><strong>Akşam:</strong> {{ beslenme_programi[6] }}</p>
-                            <p><strong>Kalori Hedefi:</strong> {{ beslenme_programi[8] }} kcal</p>
+                    <select id="ogrenciler" name="ogrenciler">
+                        {% for ogrencilerim in danisan_adi_listesi %}
+                            <option value="{{ loop.index }}">{{ ogrencilerim[0] }}</option>
                         {% endfor %}
-                    </div>
+                    </select>
 
-                    <!-- Egzersiz Programı Bilgileri -->
-                    <div class="egzersiz-bilgileri">
-                        <h3>Egzersiz Programı</h3>
-                        {% for egzersiz_programi in EgzersizProgramlari %}
-                            <div class="egzersiz">
-                                <p><strong>Egzersiz Adı:</strong> {{ egzersiz_programi[3] }}</p>
-                                <p><strong>Hedef:</strong> {{ egzersiz_programi[4] }}</p>
-                                <p><strong>Başlangıç Tarihi:</strong> {{ egzersiz_programi[5] }}</p>
-                                <p><strong>Program Süresi:</strong> {{ egzersiz_programi[6] }} Hafta</p>
-                            </div>
-                        {% endfor %}
-                    </div>
+                    <input type="submit" value="bilgileri goster">
+
+                      <div class="student-container" id="studentInfo">
+                            <h3>Öğrenci Bilgileri</h3>
+                            <img src="https://via.placeholSder.com/150" alt="Öğrenci Fotoğrafı">
+                            <table>
+                                <tr>
+                                    <th>Özellik</th>
+                                    <th>Değer</th>
+                                </tr>
+                                <tr>
+                                    <td>Adı Soyadı</td>
+                                    <td id="studentName">John Doe</td>
+                                </tr>
+                                <tr>
+                                    <td>Ağırlık</td>
+                                    <td id="studentWeight">70 kg</td>
+                                </tr>
+                                <tr>
+                                    <td>Boy</td>
+                                    <td id="studentHeight">175 cm</td>
+                                </tr>
+                                <tr>
+                                    <td>Kas Kütlesi</td>
+                                    <td id="muscleMass">50 kg</td>
+                                </tr>
+                                <tr>
+                                    <td>Yağ Oranı</td>
+                                    <td id="bodyFat">20%</td>
+                                </tr>
+                                <tr>
+                                    <td>Kütle İndeksi</td>
+                                    <td id="bmi">23.0</td>
+                                </tr>
+                                <tr>
+                                    <td>Hedefi</td>
+                                    <td id="goal">Zayıflama</td>
+                                </tr>
+                                <tr>
+                                    <td>Sabah Yemeği</td>
+                                    <td id="breakfast">Yulaf ezmesi</td>
+                                </tr>
+                                <tr>
+                                    <td>Öğle Yemeği</td>
+                                    <td id="lunch">Tavuk salatası</td>
+                                </tr>
+                                <tr>
+                                    <td>Akşam Yemeği</td>
+                                    <td id="dinner">Balık ızgara</td>
+                                </tr>
+                                <tr>
+                                    <td>Öğün Sayısı</td>
+                                    <td id="mealCount">3</td>
+                                </tr>
+                                <tr>
+                                    <td>Kalori Hedefi</td>
+                                    <td id="calorieGoal">2000 kcal</td>
+                                </tr>
+                            </table>
+                        </div>
+
                 </section>
             </div>
 
             <div>
                 <section id="services">
-                    <h2 style="font-size: 55px;">Antrenörle Mesajlaşma</h2>
+                    <h2 style="font-size: 55px;">Danışanla Mesajlaşma</h2>
                     <div class="mesajlar" id="mesajlar">
                         <!-- Mesajlar buraya eklenecek -->
                     </div>
@@ -106,23 +147,6 @@
                         <textarea id="mesaj" rows="4" cols="50"></textarea>
                         <button onclick="gonderMesaj()">Gönder</button>
                     </div>
-                </section>
-            </div>
-
-            <div>
-                <section id="contact">
-                    <h2 style="font-size: 55px;">Vücut Ölçüleri</h2>
-
-                    <div class="beslenme-bilgileri">
-                        {% for ilerleme_Kayitlari in ilerlemeKayitlari %}
-                            <p><strong>Kilo:</strong> {{ ilerleme_Kayitlari[2] }} Kg </p>
-                            <p><strong>Boy:</strong> {{ ilerleme_Kayitlari[3] }} cm</p>
-                            <p><strong>Yağ Oranı:</strong> %{{ ilerleme_Kayitlari[4] }} </p>
-                            <p><strong>Kas Kütlesi:</strong> {{ ilerleme_Kayitlari[5] }} KG </p>
-                            <p><strong>Vüvut İndeksi:</strong> %{{ ilerleme_Kayitlari[6] }} </p>
-                        {% endfor %}
-                    </div>
-
                 </section>
             </div>
 

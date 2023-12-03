@@ -22,26 +22,26 @@ body {
     font-size: 24px;
     color: #fff;
     margin-bottom: 20px;
-    text-align: center; /* Başlığı merkezle */
+    text-align: center;
 }
 
 .sidebar ul {
     list-style-type: none;
     padding: 10px;
-    margin-top: 20px; /* Yazıları biraz daha aşağıya indir */
+    margin-top: 20px;
 }
 
 .sidebar a {
     color: white;
-    font-size: 20px; /* Yazıları biraz daha büyüt */
+    font-size: 20px;
     text-decoration: none;
     display: block;
     padding: 10px;
-    transition: background-color 0.3s; /* Hover efekti için geçiş süresi eklendi */
+    transition: background-color 0.3s;
 }
 
 .sidebar a:hover {
-    background-color: #555; /* Hover olduğunda arka plan rengi değiştir */
+    background-color: #555;
 }
 
 .sidebar li {
@@ -53,9 +53,10 @@ body {
     padding: 20px;
     margin-left: 20%;
 }
+
 form {
     margin-top: 20px;
-    max-width: 800px; /* Formun maksimum genişliğini belirle */
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -76,8 +77,8 @@ input[type="submit"] {
     padding: 12px;
     margin-bottom: 15px;
     box-sizing: border-box;
-    border: 1px solid #ccc; /* Kenarlık ekle */
-    border-radius: 8px; /* Köşeleri yumuşat */
+    border: 1px solid #ccc;
+    border-radius: 8px;
 }
 
 input[type="radio"] {
@@ -91,17 +92,14 @@ input[type="submit"] {
     transition: background-color 0.3s;
 }
 
-/* Hover efekti */
 input[type="submit"]:hover {
     background-color: #45a049;
 }
 
-/* Optional: Add hover effects for links and buttons */
 .sidebar a:hover {
     background-color: #555;
 }
 
-/* Danışan Seçimi Stili */
 label {
     display: block;
     margin-top: 20px;
@@ -117,7 +115,6 @@ select {
     font-size: 16px;
 }
 
-/* İsteğe bağlı: Link ve buton hover efektleri */
 .sidebar a:hover {
     background-color: #555;
 }
@@ -125,6 +122,7 @@ select {
 input[type="submit"]:hover {
     background-color: #45a049;
 }
+
 .content {
     width: 80%;
     padding: 20px;
@@ -145,6 +143,7 @@ form {
 .egzersiz {
     margin-top: 20px;
 }
+
 #mesajlar {
     border: 1px solid #ccc;
     padding: 10px;
@@ -156,11 +155,6 @@ form {
 .mesaj-gonder-formu {
     display: flex;
     flex-direction: column;
-}
-
-label {
-    margin-bottom: 8px;
-    font-weight: bold;
 }
 
 textarea {
@@ -181,4 +175,48 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+select {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.student-container {
+    text-align: center;
+}
+
+.student-info {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
 }

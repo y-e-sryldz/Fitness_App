@@ -36,7 +36,7 @@ def home():
                 if role == 1:
                     return redirect(url_for('yonetici'))
                 elif role == 2:
-                    return render_template('html/antrenor.html')
+                    return Antrenor()
                 elif role == 3:
                     return danisan()
                 else:
@@ -226,6 +226,39 @@ def antrenor_bilgi_ekle():
             print(f'Hata oluştu: {str(e)}', 'danger')
 
     return render_template('html/main.html')
+
+@app.route('/')
+def Antrenor():
+    try:
+        # Flask session'da kullanıcının user_id değerini kontrol et
+        user_id = session.get('user_id')
+
+        # Cursor oluştur
+        conn = connect_db()
+        cursor = conn.cursor()
+
+        # SQL sorgusu
+        danisanlar_query = "SELECT Danisan_id FROM Antrenor_DanisanAtama WHERE antrenor_id = ?"
+
+        # Parametre ile sorguyu çalıştır
+        danisanlar = cursor.execute(danisanlar_query, (user_id,))
+        danisan_id_listesi = [danisan[0] for danisan in danisanlar]
+
+        # Danışanların isimlerini bul
+        danisan_adi_query = "SELECT adi FROM Kullanicilar WHERE id IN ({})".format(
+            ','.join(['?'] * len(danisan_id_listesi)))
+        danisan_adi_listesi = cursor.execute(danisan_adi_query, danisan_id_listesi).fetchall()
+
+        print(danisan_adi_listesi)
+
+        # Bağlantıyı kapat
+        cursor.close()
+
+        return render_template('html/antrenor.html', danisan_adi_listesi=danisan_adi_listesi)
+    except Exception as e:
+        print(f'Hata oluştu: {str(e)}')
+        return render_template('main.html', error_message=str(e))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
