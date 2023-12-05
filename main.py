@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 import pyodbc
 from werkzeug.utils import secure_filename
 
@@ -227,7 +227,7 @@ def antrenor_bilgi_ekle():
 
     return render_template('html/main.html')
 
-@app.route('/')
+@app.route('/Antrenor')
 def Antrenor():
     try:
         # Flask session'da kullanıcının user_id değerini kontrol et
@@ -258,6 +258,111 @@ def Antrenor():
     except Exception as e:
         print(f'Hata oluştu: {str(e)}')
         return render_template('main.html', error_message=str(e))
+
+@app.route('/get_student_info', methods=['POST'])
+def get_student_info():
+    try:
+        print("11")
+        danisan_index_raw = request.form.get('danisanIndex')
+        print('danisan_index_raw:', danisan_index_raw)  # Hatanın nedenini anlamak için log
+
+        if danisan_index_raw is None:
+            danisan_index = int(danisan_index_raw)
+            print('danisan_index:', danisan_index)  # Hatanın nedenini anlamak için log
+
+        danisan_index = int(danisan_index_raw)
+        print('danisan_index:', danisan_index)  # Hatanın nedenini anlamak için log
+
+        conn = connect_db()
+        cursor = conn.cursor()
+        user_id = session.get('user_id')
+
+        # Kullanicilar tablosundan danisanin ID'sini bul
+        kullanicilar_query = "SELECT id, adi FROM Kullanicilar ORDER BY id OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY"
+        kullanicilar_result = cursor.execute(kullanicilar_query).fetchone()
+
+        if not kullanicilar_result:
+            cursor.close()
+            conn.close()
+            return jsonify({'error': 'Danisan bilgileri bulunamadı'})
+
+        danisan_id = kullanicilar_result[0]
+        danisan_adi = kullanicilar_result[1]
+
+        print("AAAAAAAA")
+        print(danisan_id)
+        print("AAAAAAAA")
+
+        # Danisanlar tablosundan fotoğrafı çek
+        danisanlar_query = "SELECT pp FROM Danisanlar WHERE id = ?"
+        danisanlar_result = cursor.execute(danisanlar_query, (danisan_id,)).fetchone()
+        danisan_pp = danisanlar_result[0] if danisanlar_result else None
+
+        # IlerlemeKayitlari tablosundan en son kayıtları çek
+        ilerleme_query = "SELECT kilo, boy, yag_orani, kas_kütlesi,kitle_index, NULL AS tarih FROM IlerlemeKayitlari WHERE danisan_id = ? ORDER BY tarih DESC OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY"
+        ilerleme_result = cursor.execute(ilerleme_query, (danisan_id,)).fetchone()
+
+
+        kilo = ilerleme_result[0] if ilerleme_result else None
+        boy = ilerleme_result[1] if ilerleme_result else None
+        yag_orani = ilerleme_result[2] if ilerleme_result else None
+        kas_kutlesi = ilerleme_result[3] if ilerleme_result else None
+        kitle_index = ilerleme_result[4] if ilerleme_result else None
+
+        # BeslenmeProgramlari tablosundan bilgileri çek
+        beslenme_query = "SELECT hedef, sabah, ogle, aksam, gunluk_ogunler, kalori_hedefin FROM BeslenmeProgramlari WHERE danisan_id = ?"
+        try:
+            beslenme_result = cursor.execute(beslenme_query, (user_id,)).fetchone()
+        except Exception as e:
+            print(f'Hata oluştu: {e}')
+            return jsonify({'error': str(e)})
+
+
+        hedef = beslenme_result[0] if beslenme_result else None
+        sabah = beslenme_result[1] if beslenme_result else None
+        ogle = beslenme_result[2] if beslenme_result else None
+        aksam = beslenme_result[3] if beslenme_result else None
+        gunluk_ogunler = beslenme_result[4] if beslenme_result else None
+        kalori_hedefi = beslenme_result[5] if beslenme_result else None
+
+        print(hedef, sabah, ogle, aksam,gunluk_ogunler,kalori_hedefi)
+
+        # EgzersizProgramlari tablosundan bilgileri çek
+        egzersiz_query = "SELECT egzersiz_adi, hedefleri, program_baslangicT, program_sure FROM EgzersizProgramlari WHERE danisan_id = ?"
+        egzersiz_result = cursor.execute(egzersiz_query, (user_id,)).fetchone()
+
+        egzersiz_adi = egzersiz_result[0] if egzersiz_result else None
+        hedefleri = egzersiz_result[1] if egzersiz_result else None
+        program_baslangicT = egzersiz_result[2] if egzersiz_result else None
+        program_sure = egzersiz_result[3] if egzersiz_result else None
+
+        cursor.close()
+        conn.close()
+
+        # JSON formatında verileri döndür
+        return jsonify({
+            'danisan_adi': danisan_adi,
+            'danisan_pp': danisan_pp,
+            'kilo': kilo,
+            'boy': boy,
+            'yag_orani': yag_orani,
+            'kas_kutlesi': kas_kutlesi,
+            'kitle_index': kitle_index,
+            'hedef': hedef,
+            'sabah': sabah,
+            'ogle': ogle,
+            'aksam': aksam,
+            'gunluk_ogunler': gunluk_ogunler,
+            'kalori_hedefi': kalori_hedefi,
+            'egzersiz_adi': egzersiz_adi,
+            'hedefleri': hedefleri,
+            'program_baslangicT': program_baslangicT,
+            'program_sure': program_sure
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 
 
 if __name__ == '__main__':

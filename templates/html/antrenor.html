@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/antrenor.css') }}">
-
+    <script src="{{ url_for('static', filename='js/antrenor.js') }}"></script>
     <title>Sidebar Example</title>
 </head>
 <body>
@@ -72,66 +72,66 @@
                         {% endfor %}
                     </select>
 
-                    <input type="submit" value="bilgileri goster">
+                   <input type="submit" value="bilgileri goster" id="showInfoButton">
 
-                      <div class="student-container" id="studentInfo">
-                            <h3>Öğrenci Bilgileri</h3>
-                            <img src="https://via.placeholSder.com/150" alt="Öğrenci Fotoğrafı">
-                            <table>
-                                <tr>
-                                    <th>Özellik</th>
-                                    <th>Değer</th>
-                                </tr>
-                                <tr>
-                                    <td>Adı Soyadı</td>
-                                    <td id="studentName">John Doe</td>
-                                </tr>
-                                <tr>
-                                    <td>Ağırlık</td>
-                                    <td id="studentWeight">70 kg</td>
-                                </tr>
-                                <tr>
-                                    <td>Boy</td>
-                                    <td id="studentHeight">175 cm</td>
-                                </tr>
-                                <tr>
-                                    <td>Kas Kütlesi</td>
-                                    <td id="muscleMass">50 kg</td>
-                                </tr>
-                                <tr>
-                                    <td>Yağ Oranı</td>
-                                    <td id="bodyFat">20%</td>
-                                </tr>
-                                <tr>
-                                    <td>Kütle İndeksi</td>
-                                    <td id="bmi">23.0</td>
-                                </tr>
-                                <tr>
-                                    <td>Hedefi</td>
-                                    <td id="goal">Zayıflama</td>
-                                </tr>
-                                <tr>
-                                    <td>Sabah Yemeği</td>
-                                    <td id="breakfast">Yulaf ezmesi</td>
-                                </tr>
-                                <tr>
-                                    <td>Öğle Yemeği</td>
-                                    <td id="lunch">Tavuk salatası</td>
-                                </tr>
-                                <tr>
-                                    <td>Akşam Yemeği</td>
-                                    <td id="dinner">Balık ızgara</td>
-                                </tr>
-                                <tr>
-                                    <td>Öğün Sayısı</td>
-                                    <td id="mealCount">3</td>
-                                </tr>
-                                <tr>
-                                    <td>Kalori Hedefi</td>
-                                    <td id="calorieGoal">2000 kcal</td>
-                                </tr>
-                            </table>
-                        </div>
+                     <div class="student-container" id="studentInfo">
+                        <h3>Öğrenci Bilgileri</h3>
+                        <img src="https://via.placeholder.com/150" alt="Öğrenci Fotoğrafı" id="studentPhoto">
+                        <table>
+                            <tr>
+                                <th>Özellik</th>
+                                <th>Değer</th>
+                            </tr>
+                            <tr>
+                                <td>Adı Soyadı</td>
+                                <td id="studentName"></td>
+                            </tr>
+                            <tr>
+                                <td>Ağırlık</td>
+                                <td id="studentWeight"></td>
+                            </tr>
+                            <tr>
+                                <td>Boy</td>
+                                <td id="studentHeight"></td>
+                            </tr>
+                            <tr>
+                                <td>Kas Kütlesi</td>
+                                <td id="muscleMass"></td>
+                            </tr>
+                            <tr>
+                                <td>Yağ Oranı</td>
+                                <td id="bodyFat"></td>
+                            </tr>
+                            <tr>
+                                <td>Kütle İndeksi</td>
+                                <td id="bmi"></td>
+                            </tr>
+                            <tr>
+                                <td>Hedefi</td>
+                                <td id="goal"></td>
+                            </tr>
+                            <tr>
+                                <td>Sabah Yemeği</td>
+                                <td id="breakfast"></td>
+                            </tr>
+                            <tr>
+                                <td>Öğle Yemeği</td>
+                                <td id="lunch"></td>
+                            </tr>
+                            <tr>
+                                <td>Akşam Yemeği</td>
+                                <td id="dinner"></td>
+                            </tr>
+                            <tr>
+                                <td>Öğün Sayısı</td>
+                                <td id="mealCount"></td>
+                            </tr>
+                            <tr>
+                                <td>Kalori Hedefi</td>
+                                <td id="calorieGoal"></td>
+                            </tr>
+                        </table>
+                    </div>
 
                 </section>
             </div>
@@ -149,10 +149,47 @@
                     </div>
                 </section>
             </div>
-
             </div>
             </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        document.getElementById('showInfoButton').addEventListener('click', function () {
+            console.log('Butona tıklandı.');  // Konsola mesaj yazdır
+
+            var danisanIndex = document.getElementById('ogrenciler').value;
+
+            fetch('/get_student_info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded', // Değiştirildi
+                },
+                body: 'danisanIndex=' + danisanIndex, // Değiştirildi
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Veri çekildi:', data);  // Konsola veriyi yazdır
+
+                // JSON'dan gelen verileri kullanarak HTML içeriğini güncelle
+                document.getElementById('studentPhoto').src = data.danisan_pp;
+                document.getElementById('studentName').innerText = data.danisan_adi;
+                document.getElementById('studentWeight').innerText = data.kilo;
+                document.getElementById('studentHeight').innerText = data.boy;
+                document.getElementById('muscleMass').innerText = data.kas_kutlesi;
+                document.getElementById('bodyFat').innerText = data.yag_orani;
+                document.getElementById('bmi').innerText = data.kitle_index;
+                document.getElementById('goal').innerText = data.hedef;
+                document.getElementById('breakfast').innerText = data.sabah;
+                document.getElementById('lunch').innerText = data.ogle;
+                document.getElementById('dinner').innerText = data.aksam;
+                document.getElementById('mealCount').innerText = data.gunluk_ogunler;
+                document.getElementById('calorieGoal').innerText = data.kalori_hedefi;
+            })
+            .catch(error => {
+                console.error('Veri çekilirken hata oluştu:', error);
+            });
+        });
+
+    </script>
 </body>
 </html>
