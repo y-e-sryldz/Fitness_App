@@ -34,7 +34,7 @@ def home():
 
             if check_user(username, password):
                 if role == 1:
-                    return redirect(url_for('yonetici'))
+                    return yonetici()
                 elif role == 2:
                     return Antrenor()
                 elif role == 3:
@@ -259,6 +259,25 @@ def Antrenor():
         print(f'Hata oluştu: {str(e)}')
         return render_template('main.html', error_message=str(e))
 
+@app.route('/yonetici')
+def yonetici():
+    try:
+
+
+        # Cursor oluştur
+        conn = connect_db()
+        cursor = conn.cursor()
+
+        # SQL sorgusu
+        danisanlar_query = "SELECT adi FROM kullanicilar"
+
+        danisan_adi_listesi = cursor.execute(danisanlar_query)
+
+
+        return render_template('html/yonetici.html',danisan_adi_listesi=danisan_adi_listesi)
+    except Exception as e:
+        print(f'Hata oluştu: {str(e)}')
+        return render_template('main.html', error_message=str(e))
 @app.route('/get_student_info', methods=['POST'])
 def get_student_info():
     try:

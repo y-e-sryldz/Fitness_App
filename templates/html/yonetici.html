@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/antrenor.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/yonetici.css') }}">
     <script src="{{ url_for('static', filename='js/antrenor.js') }}"></script>
     <title>Sidebar Example</title>
 </head>
@@ -13,59 +13,16 @@
     <div class="container">
         <div class="sidebar">
             <ul>
-                <li><a href="#about" style="font-size: 30px;">Antrenör Paneli</a></li>
-                <li><a href="#home">Kişisel Bilgiler</a></li>
-                <li><a href="#about">Danışanlarım</a></li>
-                <li><a href="#services">Danışanlarla Mesajlaşma</a></li>
+                <li><a href="#about" style="font-size: 30px;">Yönetici Paneli</a></li>
+                <li><a href="#about">Kullanıcılarım</a></li>
             </ul>
         </div>
 
         <div class="content">
-            <!-- Kişisel Bilgiler Formu -->
-            <section id="home">
-                <h2 style="font-size: 55px;">Kişisel Bilgiler</h2>
-                <form method="post" action="/antrenor_bilgi_ekle" enctype="multipart/form-data">
-                    <label for="ad">Ad Soyad:</label>
-                    <input type="text" id="ad" name="ad" required>
-
-                    <label for="sifre">Şifre:</label>
-                    <input type="text" id="sifre" name="sifre" required>
-
-
-                    <label for="email">E-posta:</label>
-                    <input type="email" id="email" name="email" required>
-
-                    <label for="telefon">Telefon:</label>
-                    <input type="tel" id="telefon" name="telefon" required>
-
-                    <!-- Danışan Seçimi -->
-                    <label for="antrenorSelect">Uzmanlık Alanı:</label>
-                    <select id="antrenorSelect" name="uzmanlik">
-                        <option value="1">Kilo aldırma</option>
-                        <option value="2">kilo verdirme</option>
-                        <option value="3">Kilo koruma</option>
-                        <option value="4">Kas kazanma</option>
-                        <!-- İhtiyacınıza göre danışanları buraya ekleyebilirsiniz -->
-                    </select>
-
-                    <!-- Deneyim Seçimi -->
-                    <label for="deneyimSelect">Uzmanlık Alanı:</label>
-                    <select id="deneyimSelect" name="deneyim">
-                        <option value="1">1 Sene</option>
-                        <option value="2">2 Sene</option>
-                        <option value="3">3 Sene</option>
-                        <option value="4">4 Sene</option>
-                        <!-- İhtiyacınıza göre danışanları buraya ekleyebilirsiniz -->
-                    </select>
-
-                    <input type="submit" value="Bilgileri Kaydet">
-                </form>
-            </section>
-
             <div>
                 <!-- Egzersiz ve Beslenme Bilgileri -->
                 <section id="about">
-                    <h2 style="font-size: 55px;">Danışanlarım</h2>
+                    <h2 style="font-size: 55px;">Kullanıcılarım</h2>
 
                     <select id="ogrenciler" name="ogrenciler">
                         {% for ogrencilerim in danisan_adi_listesi %}
@@ -76,7 +33,7 @@
                    <input type="submit" value="bilgileri goster" id="showInfoButton">
 
                      <div class="student-container" id="studentInfo">
-                        <h3>Danışan Bilgileri</h3>
+                        <h3>Kullanıcı Bilgileri</h3>
                         <img src="https://via.placeholder.com/150" alt="Öğrenci Fotoğrafı" id="studentPhoto">
                         <table>
                             <tr>
@@ -151,20 +108,6 @@
                         </table>
                     </div>
 
-                </section>
-            </div>
-
-            <div>
-                <section id="services">
-                    <h2 style="font-size: 55px;">Danışanla Mesajlaşma</h2>
-                    <div class="mesajlar" id="mesajlar">
-                        <!-- Mesajlar buraya eklenecek -->
-                    </div>
-                    <div class="mesaj-gonder-formu">
-                        <label for="mesaj">Mesajınız:</label>
-                        <textarea id="mesaj" rows="4" cols="50"></textarea>
-                        <button onclick="gonderMesaj()">Gönder</button>
-                    </div>
                 </section>
             </div>
             </div>
