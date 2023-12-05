@@ -262,20 +262,32 @@ def Antrenor():
 @app.route('/get_student_info', methods=['POST'])
 def get_student_info():
     try:
-        print("11")
         danisan_index_raw = request.form.get('danisanIndex')
+        danisan_index_raw = danisan_index_raw.strip()
         print('danisan_index_raw:', danisan_index_raw)  # Hatanın nedenini anlamak için log
 
-        if danisan_index_raw is None:
-            danisan_index = int(danisan_index_raw)
-            print('danisan_index:', danisan_index)  # Hatanın nedenini anlamak için log
+        conn = connect_db()
+        cursor1 = conn.cursor()
 
-        danisan_index = int(danisan_index_raw)
-        print('danisan_index:', danisan_index)  # Hatanın nedenini anlamak için log
+        # Kullanicilar tablosundan adi sütununda ara ve id sütununa göre eşleşen kaydın adını al
+        try:
+            cursor1.execute("SELECT id FROM Kullanicilar WHERE adi = ?", (danisan_index_raw))
+            result = cursor1.fetchone()
+            print("Başarılı sorgu. Sonuç:", result)
 
+            if result is not None:
+                print("naber")
+        except Exception as e:
+            print("Hata oluştu:", e)
+        finally:
+            conn.close()
+
+        print(result)  # Sorgu sonucunu kontrol etmek için
+
+        print("aa")
         conn = connect_db()
         cursor = conn.cursor()
-        user_id = session.get('user_id')
+
 
         # Kullanicilar tablosundan danisanin ID'sini bul
         kullanicilar_query = "SELECT id, adi FROM Kullanicilar ORDER BY id OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY"
@@ -289,19 +301,15 @@ def get_student_info():
         danisan_id = kullanicilar_result[0]
         danisan_adi = kullanicilar_result[1]
 
-        print("AAAAAAAA")
-        print(danisan_id)
-        print("AAAAAAAA")
-
-        # Danisanlar tablosundan fotoğrafı çek
-        danisanlar_query = "SELECT pp FROM Danisanlar WHERE id = ?"
-        danisanlar_result = cursor.execute(danisanlar_query, (danisan_id,)).fetchone()
-        danisan_pp = danisanlar_result[0] if danisanlar_result else None
-
         # IlerlemeKayitlari tablosundan en son kayıtları çek
-        ilerleme_query = "SELECT kilo, boy, yag_orani, kas_kütlesi,kitle_index, NULL AS tarih FROM IlerlemeKayitlari WHERE danisan_id = ? ORDER BY tarih DESC OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY"
-        ilerleme_result = cursor.execute(ilerleme_query, (danisan_id,)).fetchone()
+        try:
+            ilerleme_query = "SELECT kilo, boy, yag_orani, kas_kütlesi, kitle_index, NULL AS tarih FROM IlerlemeKayitlari WHERE danisan_id = ? ORDER BY tarih DESC OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY"
+            ilerleme_result = cursor.execute(ilerleme_query, (result)).fetchone()
+        except Exception as e:
+            print("Hata oluştu:", e)
+        print("bb")
 
+        ilerleme_result = cursor.execute(ilerleme_query, (result)).fetchone()
 
         kilo = ilerleme_result[0] if ilerleme_result else None
         boy = ilerleme_result[1] if ilerleme_result else None
@@ -311,30 +319,27 @@ def get_student_info():
 
         # BeslenmeProgramlari tablosundan bilgileri çek
         beslenme_query = "SELECT hedef, sabah, ogle, aksam, gunluk_ogunler, kalori_hedefin FROM BeslenmeProgramlari WHERE danisan_id = ?"
-        try:
-            beslenme_result = cursor.execute(beslenme_query, (user_id,)).fetchone()
-        except Exception as e:
-            print(f'Hata oluştu: {e}')
-            return jsonify({'error': str(e)})
-
-
-        hedef = beslenme_result[0] if beslenme_result else None
-        sabah = beslenme_result[1] if beslenme_result else None
-        ogle = beslenme_result[2] if beslenme_result else None
-        aksam = beslenme_result[3] if beslenme_result else None
-        gunluk_ogunler = beslenme_result[4] if beslenme_result else None
-        kalori_hedefi = beslenme_result[5] if beslenme_result else None
-
-        print(hedef, sabah, ogle, aksam,gunluk_ogunler,kalori_hedefi)
+        beslenme_result = cursor.execute(beslenme_query, (result)).fetchall()
 
         # EgzersizProgramlari tablosundan bilgileri çek
         egzersiz_query = "SELECT egzersiz_adi, hedefleri, program_baslangicT, program_sure FROM EgzersizProgramlari WHERE danisan_id = ?"
-        egzersiz_result = cursor.execute(egzersiz_query, (user_id,)).fetchone()
+        egzersiz_result = cursor.execute(egzersiz_query, (result)).fetchall()
 
-        egzersiz_adi = egzersiz_result[0] if egzersiz_result else None
-        hedefleri = egzersiz_result[1] if egzersiz_result else None
-        program_baslangicT = egzersiz_result[2] if egzersiz_result else None
-        program_sure = egzersiz_result[3] if egzersiz_result else None
+        # Hedef, sabah, ogle, aksam, gunluk_ogunler ve kalori_hedefin değerlerini elde et
+        hedef = beslenme_result[0][0] if len(beslenme_result) > 0 else None
+        sabah = beslenme_result[0][1] if len(beslenme_result) > 0 else None
+        ogle = beslenme_result[0][2] if len(beslenme_result) > 0 else None
+        aksam = beslenme_result[0][3] if len(beslenme_result) > 0 else None
+        gunluk_ogunler = beslenme_result[0][4] if len(beslenme_result) > 0 else None
+        kalori_hedefi = beslenme_result[0][5] if len(beslenme_result) > 0 else None
+
+        # Egzersiz_adi, hedefleri, program_baslangicT ve program_sure değerlerini elde et
+        egzersiz_adi = egzersiz_result[0][0] if len(egzersiz_result) > 0 else None
+        hedefleri = egzersiz_result[0][1] if len(egzersiz_result) > 0 else None
+        program_baslangicT = egzersiz_result[0][2] if len(egzersiz_result) > 0 else None
+        program_sure = egzersiz_result[0][3] if len(egzersiz_result) > 0 else None
+
+
 
         cursor.close()
         conn.close()
@@ -342,7 +347,6 @@ def get_student_info():
         # JSON formatında verileri döndür
         return jsonify({
             'danisan_adi': danisan_adi,
-            'danisan_pp': danisan_pp,
             'kilo': kilo,
             'boy': boy,
             'yag_orani': yag_orani,
@@ -357,7 +361,8 @@ def get_student_info():
             'egzersiz_adi': egzersiz_adi,
             'hedefleri': hedefleri,
             'program_baslangicT': program_baslangicT,
-            'program_sure': program_sure
+            'program_sure': program_sure,
+
         })
 
     except Exception as e:

@@ -68,7 +68,7 @@
 
                     <select id="ogrenciler" name="ogrenciler">
                         {% for ogrencilerim in danisan_adi_listesi %}
-                            <option value="{{ loop.index }}">{{ ogrencilerim[0] }}</option>
+                            <option value="{{ ogrencilerim[0] }}">{{ ogrencilerim[0] }}</option>
                         {% endfor %}
                     </select>
 
@@ -130,6 +130,23 @@
                                 <td>Kalori Hedefi</td>
                                 <td id="calorieGoal"></td>
                             </tr>
+                            <tr>
+                                <td>Egzersiz Adı</td>
+                                <td id="calorieGoal1"></td>
+                            </tr>
+                            <tr>
+                                <td>Hedefi</td>
+                                <td id="calorieGoal2"></td>
+                            </tr>
+                            <tr>
+                                <td>Program Başlangıç Tarihi</td>
+                                <td id="calorieGoal3"></td>
+                            </tr>
+                            <tr>
+                                <td>Program Süresi</td>
+                                <td id="calorieGoal4"></td>
+                            </tr>
+
                         </table>
                     </div>
 
@@ -157,7 +174,7 @@
         document.getElementById('showInfoButton').addEventListener('click', function () {
             console.log('Butona tıklandı.');  // Konsola mesaj yazdır
 
-            var danisanIndex = document.getElementById('ogrenciler').value;
+           var danisanIndex = document.getElementById('ogrenciler').value;
 
             fetch('/get_student_info', {
                 method: 'POST',
@@ -171,7 +188,6 @@
                 console.log('Veri çekildi:', data);  // Konsola veriyi yazdır
 
                 // JSON'dan gelen verileri kullanarak HTML içeriğini güncelle
-                document.getElementById('studentPhoto').src = data.danisan_pp;
                 document.getElementById('studentName').innerText = data.danisan_adi;
                 document.getElementById('studentWeight').innerText = data.kilo;
                 document.getElementById('studentHeight').innerText = data.boy;
@@ -184,6 +200,10 @@
                 document.getElementById('dinner').innerText = data.aksam;
                 document.getElementById('mealCount').innerText = data.gunluk_ogunler;
                 document.getElementById('calorieGoal').innerText = data.kalori_hedefi;
+                document.getElementById('calorieGoal1').innerText = data.egzersiz_adi;
+                document.getElementById('calorieGoal2').innerText = data.hedefleri;
+                document.getElementById('calorieGoal3').innerText = data.program_baslangicT;
+                document.getElementById('calorieGoal4').innerText = data.program_sure;
             })
             .catch(error => {
                 console.error('Veri çekilirken hata oluştu:', error);
