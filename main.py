@@ -297,9 +297,9 @@ def get_student_info():
             cursor.close()
             conn.close()
             return jsonify({'error': 'Danisan bilgileri bulunamadı'})
-
-        danisan_id = kullanicilar_result[0]
-        danisan_adi = kullanicilar_result[1]
+        # Kullanicilar tablosundan danisanin ID'sini bul
+        kullanicilar_query = "SELECT adi FROM Kullanicilar WHERE id = ?"
+        danisan_adi = cursor.execute(kullanicilar_query,(result)).fetchone()
 
         # IlerlemeKayitlari tablosundan en son kayıtları çek
         try:
@@ -311,6 +311,7 @@ def get_student_info():
 
         ilerleme_result = cursor.execute(ilerleme_query, (result)).fetchone()
 
+        danisan_adi = danisan_adi[0] if ilerleme_result else None
         kilo = ilerleme_result[0] if ilerleme_result else None
         boy = ilerleme_result[1] if ilerleme_result else None
         yag_orani = ilerleme_result[2] if ilerleme_result else None
