@@ -26,7 +26,7 @@ body {
 }
 
 .login-button {
-    background-color: #4caf50;
+    background-color: purple;
     color: #fff;
     padding: 10px;
     border: none;
@@ -34,12 +34,10 @@ body {
     cursor: pointer;
 }
 
-.login-button:hover {
-    background-color: #45a049;
-}
+
 
 .unuttum-button {
-    background-color: #4caf50;
+    background-color: purple;
     color: #fff;
     padding: 10px;
     border: none;

@@ -86,15 +86,13 @@ input[type="radio"] {
 }
 
 input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: purple;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
+
 
 .sidebar a:hover {
     background-color: #555;
@@ -119,9 +117,7 @@ select {
     background-color: #555;
 }
 
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
+
 
 .content {
     width: 80%;
@@ -166,16 +162,14 @@ textarea {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: purple;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s;
     padding: 10px;
 }
 
-button:hover {
-    background-color: #45a049;
-}
+
 select {
     padding: 10px;
     margin-bottom: 20px;

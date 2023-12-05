@@ -274,6 +274,9 @@ def yonetici():
         danisan_adi_listesi = cursor.execute(danisanlar_query)
 
 
+
+
+
         return render_template('html/yonetici.html',danisan_adi_listesi=danisan_adi_listesi)
     except Exception as e:
         print(f'Hata oluştu: {str(e)}')
