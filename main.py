@@ -5,10 +5,10 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 # Azure SQL Database bağlantı ayarları
-server = 'sari.database.windows.net'
-database = 'yazlab2'
-username = 'sqladmin'
-password = 'Sari1234'
+server = 'server'
+database = 'database'
+username = 'username'
+password = 'password'
 driver = '{ODBC Driver 18 for SQL Server}'  # Sürücü adınızı doğru sürücü ile değiştirin
 
 conn_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
